@@ -5,6 +5,7 @@ import com.example.LibraryManagementSystem.entity.Patron;
 import com.example.LibraryManagementSystem.repository.BookRepository;
 import com.example.LibraryManagementSystem.repository.BorrowingRecordRepository;
 import com.example.LibraryManagementSystem.repository.PatronRepository;
+import jakarta.transaction.Transactional;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class BorrowingRecordService {
     @Autowired
     private PatronRepository patronRepository;
 
+    @Transactional
     public BorrowingRecord borrowBook(Long bookId, Long patronId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
@@ -33,7 +35,7 @@ public class BorrowingRecordService {
         record.setBorrowDate(LocalDate.now());
         return borrowingRecordRepository.save(record);
     }
-
+    @Transactional
     public BorrowingRecord returnBook(Long bookId) {
         BorrowingRecord record = borrowingRecordRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Borrowing record not found"));

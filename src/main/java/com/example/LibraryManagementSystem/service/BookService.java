@@ -2,6 +2,7 @@ package com.example.LibraryManagementSystem.service;
 
 import com.example.LibraryManagementSystem.entity.Book;
 import com.example.LibraryManagementSystem.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,12 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
+    @Transactional
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
 
+    @Transactional
     public Book updateBook(Long id, Book bookDetails) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
@@ -35,7 +38,7 @@ public class BookService {
         book.setIsbn(bookDetails.getIsbn());
         return bookRepository.save(book);
     }
-
+    @Transactional
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
