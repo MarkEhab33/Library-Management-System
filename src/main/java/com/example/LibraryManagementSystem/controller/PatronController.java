@@ -16,8 +16,9 @@ public class PatronController {
     private PatronService patronService;
 
     @GetMapping
-    public List<Patron> getAllPatrons() {
-        return patronService.getAllPatrons();
+    public ResponseEntity<List<Patron>> getAllPatrons() {
+        List<Patron> patrons = patronService.getAllPatrons();
+        return ResponseEntity.ok(patrons);
     }
 
     @GetMapping("/{id}")
